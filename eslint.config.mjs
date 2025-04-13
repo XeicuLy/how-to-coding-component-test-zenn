@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { includeIgnoreFile } from '@eslint/compat';
 import tsEslintParser from '@typescript-eslint/parser';
+import vuePrettierConfig from '@vue/eslint-config-prettier';
 import eslintReactiveValueSuffix from 'eslint-plugin-reactive-value-suffix';
 import globals from 'globals';
 import vueEslintParser from 'vue-eslint-parser';
@@ -43,4 +44,5 @@ export default withNuxt([
       'reactive-value-suffix/suffix': ['error', { functionNamesToIgnoreValueCheck: [] }],
     },
   },
+  vuePrettierConfig,
 ]);
