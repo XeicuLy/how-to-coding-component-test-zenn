@@ -2,12 +2,13 @@ import { afterEach, describe, expect, test, vi } from 'vitest';
 import TestComponent from '@/components/chapter-5/TestComponent.vue';
 import { mountComponent } from '@/helpers/test';
 
-// モック関数を作成
+// vi.fn(): モック関数を作成（関数の呼び出しを監視できる特殊な関数）
 const handleClickMock = vi.fn();
 
 describe('src/components/chapter-5/TestComponent.vue', () => {
-  // 各テスト実行後にモックをリセットして、テスト間の影響を防ぐ
+  // afterEach: 各テスト実行後に行う処理を定義
   afterEach(() => {
+    // clearAllMocks(): すべてのモック関数の情報をリセット
     vi.clearAllMocks();
   });
 
@@ -21,36 +22,35 @@ describe('src/components/chapter-5/TestComponent.vue', () => {
     // コンポーネントをマウント（レンダリング）
     const wrapper = mountComponent(TestComponent, { props });
 
-    // find()メソッドでdata-testid属性を持つ要素を取得
+    // find(): 属性セレクタを使って要素を取得
+    // data-testid属性はテスト専用の識別子として使用される
     const nameDisplayArea = wrapper.find('[data-testid="props-name"]');
     const button = wrapper.find('[data-testid="props-handle-click"]');
 
-    // exists()でその要素が存在するか確認
+    // exists(): 要素が存在するかをブール値で返すマッチャー
     expect(nameDisplayArea.exists()).toBe(true);
-    // text()メソッドで要素のテキスト内容を取得し、期待値と比較
+    // text(): 要素のテキスト内容を取得
     expect(nameDisplayArea.text()).toBe('test');
-
     expect(button.exists()).toBe(true);
 
-    // trigger()メソッドでクリックイベントをシミュレート
-    // awaitを使用してイベント処理の完了を待機
+    // trigger(): クリックイベントをシミュレート
     await button.trigger('click');
 
-    // モック関数が呼び出されたか回数を確認
+    // toHaveBeenCalledTimes(): モック関数が指定回数呼ばれたか検証
     expect(handleClickMock).toHaveBeenCalledTimes(1);
   });
 
   test('親からPropsを受け取らなかった場合、デフォルト値で適切に処理されるか', async () => {
-    // テスト用のpropsを準備
+    // nameプロパティを省略してデフォルト値の動作をテスト
     const props = {
       handleClick: handleClickMock,
     };
+
     const wrapper = mountComponent(TestComponent, { props });
-    // find()で要素を取得：CSSセレクタと同様の記法
     const nameDisplayArea = wrapper.find('[data-testid="props-name"]');
 
     expect(nameDisplayArea.exists()).toBe(true);
-    // text()でテキスト内容を取得：デフォルト値が正しく表示されているか確認
+    // デフォルト値が正しく使用されているか検証
     expect(nameDisplayArea.text()).toBe('default');
   });
 });
