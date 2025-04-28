@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTestStore } from '@/store/testStore';
+import { useTestStore } from '@/store/chapter-10/testStore';
 
 const testStore = useTestStore();
 const { count: countState, isEven } = storeToRefs(testStore);

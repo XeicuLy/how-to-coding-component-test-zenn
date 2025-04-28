@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import TestComponent from '@/components/chapter-10/TestComponent.vue';
 import { setupTestingPinia, mountComponent } from '@/helpers/test';
-import { useTestStore } from '@/store/testStore';
+import { useTestStore } from '@/store/chapter-10/testStore';
 
 describe('src/components/chapter-10/TestComponent.vue', () => {
   // テスト用の変数を宣言
